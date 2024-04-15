@@ -1,0 +1,17 @@
+
+{% for movie in arrs %}
+<div class="col-md-4">
+    <div style="width: 18rem;">
+        <a href="{% url 'movie:detail' pk=movie.pk %}" style="text-decoration: none;">
+            <img class="card-img-top" src="{{movie.imagePath.url}}" alt="Card image cap">
+            <div class="card-body">
+                <h2 class="card-title">{{movie.name}}</h2>
+                <p class="card-text">
+                    {{movie.duration}} Min <br>
+                    User Rating: {{movie.userRating}}
+                </p>
+            </div>
+        </a>
+    </div>
+</div>
+{% endfor %}

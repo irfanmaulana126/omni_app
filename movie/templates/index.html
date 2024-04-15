@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All The Movies
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Movie Listings @ GV Cinema</h1>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="text" class="form-control" id="search"  placeholder="Search Movies...">
+        </div>
+    </div>
+</div>
+    <hr>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Popular Movies this month</h1>
+    </div>
+    <div class="col-md-12">
+        <div class="row" id="list">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+// jquery call function after page render
+$(document).ready(function() {
+    call_list()
+});
+
+// jquery call function list movie after user keyup input field id search
+$("#search").keyup(function(){
+    call_list()
+})
+
+// function call list movie with ajax
+function call_list() {
+    $.ajax({
+        type: "POST",
+        url: "{% url 'movie:list' %}",
+        data: {
+            'search': $('#search').val(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+        success: function (result) {
+            if (result.result) {
+                $('#list').html(result.list_movie_html)
+            } else {
+                $('#list').html('<p>Not Found</p>')
+            }
+        }
+    });
+}
+</script>
+{% endblock %}
